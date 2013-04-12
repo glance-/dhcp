@@ -57,7 +57,9 @@
     !defined (USE_NIT_SEND) && \
     !defined (USE_NIT_RECEIVE) && \
     !defined (USR_DLPI_SEND) && \
-    !defined (USE_DLPI_RECEIVE)
+    !defined (USE_DLPI_RECEIVE) && \
+    !defined (USE_NDD_SEND) && \
+    !defined (USE_PCAP_RECEIVE)
 #  define USE_DEFAULT_NETWORK
 #endif
 
@@ -205,6 +207,7 @@
    definition for your interface to the list tested below. */
 
 #if defined (USE_RAW_SEND) || defined (USE_BPF_SEND) || \
+                defined (USE_NDD_SEND) || \
 		defined (USE_NIT_SEND) || defined (USE_UPF_SEND) || \
 		defined (USE_DLPI_SEND) || defined (USE_LPF_SEND)
 #  define PACKET_ASSEMBLY
@@ -216,9 +219,10 @@
    and need to be able to decode raw packets, add the USE_XXX_RECEIVE
    definition for your interface to the list tested below. */
 
-#if defined (USE_RAW_RECEIVE) || defined (USE_BPF_SEND) || \
+#if defined (USE_RAW_RECEIVE) || defined (USE_BPF_RECEIVE) || \
 		defined (USE_NIT_RECEIVE) || defined (USE_UPF_RECEIVE) || \
-		defined (USE_DLPI_RECEIVE) || defined (USE_LPF_RECEIVE)
+		defined (USE_DLPI_RECEIVE) || defined (USE_LPF_RECEIVE) || \
+                defined (USE_PCAP_RECEIVE)
 #  define PACKET_DECODING
 #endif
 

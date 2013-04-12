@@ -106,7 +106,10 @@ extern int h_errno;
 
 #define random	rand
 
-#define USE_SOCKETS	1
+#define USE_PCAP_RECEIVE        1
+#define USE_NDD_SEND    1
+#define USE_SOCKET_FALLBACK     1
+
 #define HAVE_SA_LEN	1
 #undef FDDI
 

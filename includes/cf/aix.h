@@ -32,13 +32,23 @@
  * ``http://www.nominum.com''.
  */
 
-#define int8_t		char
-#define int16_t		short
-#define int32_t		long
+#ifdef _AIXVERSION_510
+# include <inttypes.h>
+#else
+# ifdef __64BIT__
+#
+# else /* 32-bit */
+#  define int8_t		char
+#  define int16_t		short
+#  define int32_t		long
 
-#define u_int8_t	unsigned char
-#define u_int16_t	unsigned short 
-#define u_int32_t	unsigned long 
+#  define u_int8_t	unsigned char
+#  define u_int16_t	unsigned short
+#  define u_int32_t	unsigned long
+# endif
+#endif
+
+#include <standards.h>
 
 #include <sys/types.h>
 
@@ -80,7 +90,9 @@ extern int h_errno;
  * as a key for wether or not it should be declared.  Seems reasoanble for
  * us to use the same key.
  */
-#if (_XOPEN_SOURCE != 500)
+#if (_XOPEN_SOURCE >= 500) || defined(_ISOC99_SOURCE)
+#define HAVE_SNPRINTF
+#else
 #define NO_SNPRINTF
 #endif
 
@@ -99,6 +111,11 @@ extern int h_errno;
 #undef FDDI
 
 #ifdef NEED_PRAND_CONF
+# ifdef _AIXVERSION_520
+#  ifndef HAVE_DEV_RANDOM
+#   define HAVE_DEV_RANDOM 1
+#  endif /* HAVE_DEV_RANDOM */
+# endif /* ifdef _AIXVERSION_520 */
 const char *cmds[] = {
 	"/bin/ps -ef 2>&1",
 	"/usr/bin/netstat -an 2>&1",
